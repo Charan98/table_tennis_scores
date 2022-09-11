@@ -55,5 +55,5 @@ with col2:
     c1 = st.container()
     scol1, scol2 = st.columns(2)
     c1.scol1.metric("Andreas", andreasVtobias, (andreasVtobias-tobiasVandreas))
-    c1.scol2.metric("Tobias", tobiasVandreas, (tobiasVandreas-andreasVtobias)))
+    c1.scol2.metric("Tobias", tobiasVandreas, (tobiasVandreas-andreasVtobias))
 
