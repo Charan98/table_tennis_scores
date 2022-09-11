@@ -20,12 +20,25 @@ def run_query(query):
     return rows
 
 #Pulling number of matches won by a player against an opponent from database
-charanVandreas = run_query("SELECT SUM(won) FROM `bumblebee-233720.tt_data.tt_matches` WHERE player = 'Charan' AND opponent = 'Andreas'")
-andreasVcharan = run_query("SELECT SUM(matches)-SUM(won) FROM `bumblebee-233720.tt_data.tt_matches` WHERE player = 'Charan' AND opponent = 'Andreas'")
-charanVtobias = run_query("SELECT SUM(won) FROM `bumblebee-233720.tt_data.tt_matches` WHERE player = 'Charan' AND opponent = 'Tobias'")
-tobiasVcharan = run_query("SELECT SUM(matches)-SUM(won) FROM `bumblebee-233720.tt_data.tt_matches` WHERE player = 'Charan' AND opponent = 'Tobias'")
-andreasVtobias = run_query("SELECT SUM(won) FROM `bumblebee-233720.tt_data.tt_matches` WHERE player = 'Andreas' AND opponent = 'Tobias'")
-tobiasVandreas = run_query("SELECT SUM(matches)-SUM(won) FROM `bumblebee-233720.tt_data.tt_matches` WHERE player = 'Andreas' AND opponent = 'Tobias'")
+ca = run_query("SELECT SUM(won) FROM `bumblebee-233720.tt_data.tt_matches` WHERE player = 'Charan' AND opponent = 'Andreas'")
+ac = run_query("SELECT SUM(matches)-SUM(won) FROM `bumblebee-233720.tt_data.tt_matches` WHERE player = 'Charan' AND opponent = 'Andreas'")
+ct = run_query("SELECT SUM(won) FROM `bumblebee-233720.tt_data.tt_matches` WHERE player = 'Charan' AND opponent = 'Tobias'")
+tc = run_query("SELECT SUM(matches)-SUM(won) FROM `bumblebee-233720.tt_data.tt_matches` WHERE player = 'Charan' AND opponent = 'Tobias'")
+at = run_query("SELECT SUM(won) FROM `bumblebee-233720.tt_data.tt_matches` WHERE player = 'Andreas' AND opponent = 'Tobias'")
+ta = run_query("SELECT SUM(matches)-SUM(won) FROM `bumblebee-233720.tt_data.tt_matches` WHERE player = 'Andreas' AND opponent = 'Tobias'")
+
+for row in ca:
+    charanVandreas = int(row['f0_'])
+for row in ac:
+    andreasVcharan = int(row['f0_'])
+for row in ct:
+    charanVtobias = int(row['f0_'])
+for row in tc:
+    tobiasVcharan = int(row['f0_'])
+for row in at:
+    andreasVtobias = int(row['f0_'])
+for row in ta:
+    tobiasVandreas = int(row['f0_'])
 
 #Calculaing total number of matches played between the pairs
 ca_matches = charanVandreas + andreasVcharan
@@ -35,25 +48,19 @@ at_matches = andreasVtobias + tobiasVandreas
 # Print results.
 st.title('Scoreboard')
 
-col1, col2 = st.columns(2)
+st.header("Charan/Andreas")
+scol1, scol2 = st.columns(2)
+scol1.metric("Charan", charanVandreas, (charanVandreas-andreasVcharan))
+scol2.metric("Andreas", andreasVcharan, (andreasVcharan-charanVandreas))
 
-with col1:
-    st.header("Charan/Andreas")
-    c1 = st.container()
-    scol1, scol2 = st.columns(2)
-    c1.scol1.metric("Charan", charanVandreas, (charanVandreas-andreasVcharan))
-    c1.scol2.metric("Andreas", andreasVcharan, (andreasVcharan-charanVandreas))
+st.header("Charan/Tobias")
+ccol1, ccol2 = st.columns(2)
+ccol1.metric("Charan", charanVtobias, (charanVtobias-tobiasVcharan))
+ccol2.metric("Tobias", tobiasVcharan, (tobiasVcharan-charanVtobias))
 
-    st.header("Charan/Tobias")
-    c2 = st.container();
-    ccol1, ccol2 = st.columns(2)
-    c2.ccol1.metric("Charan", charanVtobias, (charanVtobias-tobiasVcharan))
-    c2.ccol2.metric("Tobias", tobiasVcharan, (tobiasVcharan-charanVtobias))
-
-with col2:
-    st.header("Andreas/Tobias")
-    c1 = st.container()
-    scol1, scol2 = st.columns(2)
-    c1.scol1.metric("Andreas", andreasVtobias, (andreasVtobias-tobiasVandreas))
-    c1.scol2.metric("Tobias", tobiasVandreas, (tobiasVandreas-andreasVtobias))
+st.header("Andreas/Tobias")
+c1 = st.container()
+scol1, scol2 = st.columns(2)
+scol1.metric("Andreas", andreasVtobias, (andreasVtobias-tobiasVandreas))
+scol2.metric("Tobias", tobiasVandreas, (tobiasVandreas-andreasVtobias))
 
